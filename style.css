@@ -1,0 +1,46 @@
+body {
+    background-image: url(fondo.png);
+    display: block;
+    justify-content: center;
+    align-items: center;
+}
+.centro {
+    align-items: center;
+    text-align: center;
+    justify-content: center !important;
+}
+.fuente {
+    font-family: "Cedarville Cursive", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 80px;
+}
+.spinner {
+    height: 350px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #ffffff;
+    justify-content: center;
+    align-items: center;
+    animation: rotate 6s linear infinite;
+    margin: 0 auto;
+}
+img {
+    object-fit: contain;
+    transform: translateY(10%);
+    animation: jump 0.2s linear alternate infinite;
+}
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg);
+    }
+}
+@keyframes jump {
+    from {
+        transform: translateY(20%);
+    }
+}
