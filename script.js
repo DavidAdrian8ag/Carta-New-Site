@@ -1,6 +1,4 @@
-// Sets the number of stars we wish to display
-const numStars = 1000;
-// For every star we want to display
+const numStars = 1500;
 for (let i = 0; i < numStars; i++) {
     let star = document.createElement("div");
     star.className = "star";
@@ -9,7 +7,6 @@ for (let i = 0; i < numStars; i++) {
     star.style.left = xy[1] + 'px';
     document.body.append(star);
 }
-// Gets random x, y values based on the size of the container
 function getRandomPosition() {
     var y = window.innerWidth;
     var x = window.innerHeight;
