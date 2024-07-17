@@ -112,5 +112,5 @@ p {
 }
 
 .transparente {
-    display: none;
+    opacity: 0;
 }
