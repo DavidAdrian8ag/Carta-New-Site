@@ -110,3 +110,7 @@ p {
         top: -170%;
     }
 }
+
+.transparente {
+    display: none;
+}
