@@ -1,16 +1,23 @@
-const numStars = 1500;
-for (let i = 0; i < numStars; i++) {
-    let star = document.createElement("div");
-    star.className = "star";
-    var xy = getRandomPosition();
-    star.style.top = xy[0] + 'px';
-    star.style.left = xy[1] + 'px';
-    document.body.append(star);
+var heart = document.querySelector('.heart'),
+    reload = document.querySelector('.reload'),
+    hearts = document.querySelector('.hearts'),
+    allHearts = document.querySelectorAll('.hearts div'),
+    heartAnime = document.querySelector('.heart.anime')
+heart.addEventListener('click', animation);
+reload.addEventListener('click', refresh)
+function animation() {
+    heart.classList.add("active");
+    reload.setAttribute("style", "opacity: 1; cursor: pointer; pointer-events: auto;  ");
+    heartAnime.style.opacity = "0";
+    allHearts.forEach(function (element) {
+        element.classList.add("active");
+    })
 }
-function getRandomPosition() {
-    var y = window.innerWidth;
-    var x = window.innerHeight;
-    var randomX = Math.floor(Math.random() * x);
-    var randomY = Math.floor(Math.random() * y);
-    return [randomX, randomY];
+function refresh() {
+    heart.classList.remove("active");
+    reload.setAttribute("style", "opacity: 0; pointer-events: none;");
+    heartAnime.style.opacity = "1";;
+    allHearts.forEach(function (element) {
+        element.classList.remove("active");
+    })
 }
