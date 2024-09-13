@@ -88,6 +88,7 @@ body {
     position: absolute;
     top: -100px;
     width: 100%;
+    zoom: 50% !important;
 }
 .open .endtext {
     top: 0;
