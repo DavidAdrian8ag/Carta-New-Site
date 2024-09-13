@@ -88,7 +88,6 @@ body {
     position: absolute;
     top: -100px;
     width: 100%;
-    zoom: 50% !important;
 }
 .open .endtext {
     top: 0;
@@ -154,12 +153,6 @@ body {
     to {
         opacity: 1;
         top: 0;
-    }
-}
-
-@media (min-width: 712px)  {
-    .endtext {
-        zoom: 100% !important;
     }
 }
 
