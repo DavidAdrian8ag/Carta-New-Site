@@ -155,8 +155,11 @@ body {
         opacity: 1;
         top: 0;
     }
-<<<<<<< Updated upstream
 }
-=======
+
+@media (min-width: 712px)  {
+    .endtext {
+        zoom: 100% !important;
+    }
 }
->>>>>>> Stashed changes
+
