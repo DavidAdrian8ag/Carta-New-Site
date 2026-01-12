@@ -1,149 +1,73 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Te Amuuuu!</title>
-   <link rel="icon" href="favico.ico" type="image/x-icon">
+  <head>
+    <meta charset="UTF-8">
+    <title>La vida es un 🌈 ...</title>
+    <link rel="stylesheet" href="./style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.25">
+    <link rel="icon" href="favicon.ico" type="image/x-icon"> 
 
-   <style>
-      @import url('https://fonts.googleapis.com/css?family=Dosis:800');
+  </head>
+    
+  <body>
+  <div class="card">
+	<div class="card__content">
+		<p>
+			Elenita: <br>
+			Se que hoy estamos <br>
+			con dificultades, <br>
+      pero quiero que sepas
+		</p>
 
-      * {
-         box-sizing: border-box;
-      }
+		<p>
+			Que NO me rendiré <br>
+			ni me bajo del barco <br>
+			y te amaré siempre
+		</p>
 
-      html,
-      body {
-         width: 100%;
-         height: 100%;
-         margin: 0;
-         padding: 0;
-         overflow: hidden;
-         font-family: 'Dosis', sans-serif;
-      }
+		<p>
+			Recuerda que siempre <br>
+			estaré a tu lado <br>
+			no importa de que color
+		</p>
 
-      #canvas {
-         position: fixed;
-         inset: 0;
-         width: 100vw;
-         height: 100vh;
-         background: #ff93a6;
-      }
+		<p>
+			Se ponga la vida. <br>
+			Nosotros escogeremos  <br>
+			como pintarla.
+		</p>
+	</div>
 
-      .o_heart {
-         fill: #FFB3C3;
-      }
+	<fieldset class="card__color-picker">
+		<legend>Select a color:</legend>
 
-      .i_heart {
-         fill: #FCE3E9;
-      }
+		<input type="radio" id="red" name="color" value="red" />
+		<label for="red">Red</label>
 
-      .text {
-         position: fixed;
-         z-index: 10;
-         left: 50%;
-         top: 50%;
-         transform: translate(-50%, -50%);
-         font-size: clamp(1.6rem, 5vw, 3.5rem);
-         letter-spacing: 0.15em;
-         font-weight: 800;
-         color: #FFB3C3;
-         background: white;
-         padding: 12px 24px;
-         border-radius: 12px;
-         border: 3px solid #FCE3E9;
-         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-         white-space: nowrap;
-      }
+		<input type="radio" id="blue" name="color" value="blue" />
+		<label for="blue">Blue</label>
 
-      @media (max-width: 480px) {
-         .text {
-            white-space: normal;
-         }
-      }
-   </style>
-</head>
+		<input type="radio" id="green" name="color" value="green" />
+		<label for="green">Green</label>
 
-<body>
+		<input type="radio" id="yellow" name="color" value="yellow" />
+		<label for="yellow">Yellow</label>
 
-   <svg id="canvas" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<input type="radio" id="orange" name="color" value="orange" />
+		<label for="orange">Orange</label>
+	</fieldset>
+	<div>
 
-      <defs>
-         <g id="heart">
-            <path class="o_heart" d="M102.7,12.4C90.5,0.2,71.3-1,57.7,8.8c-13.6-9.9-32.9-8.7-45.2,3.5
-               c-13.6,13.6-13.6,35.8,0,49.3L48.8,98c1.8,1.8,4,2.9,6.3,3.3
-               c3.9,0.9,8.2-0.1,11.2-3.2l36.3-36.3
-               C116.2,48.2,116.2,26,102.7,12.4z" />
-
-            <path class="i_heart" d="M74.7,34c-4.6-4.6-11.9-5.1-17.1-1.4
-               c-5.2-3.8-12.5-3.3-17.1,1.3
-               c-5.1,5.1-5.1,13.6,0,18.7
-               l13.8,13.8c0.7,0.7,1.5,1.1,2.4,1.3
-               c1.5,0.3,3.1-0.1,4.2-1.2
-               l13.8-13.8C79.9,47.6,79.9,39.2,74.7,34z" />
-         </g>
-      </defs>
-   </svg>
-
-   <span class="text">Te Amuuuu!!!</span>
-
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
-
-   <script>
-      const paper = d3.select("#canvas");
-      let w = window.innerWidth;
-      let h = window.innerHeight;
-      let count = 0;
-
-      function randomDelay() {
-         return Math.random() * 600 + 200;
-      }
-
-      function spawnHeart() {
-         count++;
-
-         const x = Math.random() * (w - 120);
-         const y = Math.random() * (h - 120);
-
-         const heart = paper.append("use")
-            .attr("xlink:href", "#heart")
-            .attr("id", "h" + count)
-            .attr("transform", `translate(${x}, ${y})`);
-
-         animateHeart("#h" + count);
-      }
-
-      function animateHeart(selector) {
-         const s = (Math.random() * (0.7 - 0.4) + 0.4).toFixed(2);
-
-         const tl = new TimelineMax({
-            repeat: 1,
-            yoyo: true,
-            onComplete: () => d3.select(selector).remove()
-         });
-
-         tl.from(selector, 0.6, { scale: 0, transformOrigin: "50% 50%" })
-            .to(selector, 0.6, { scale: s, transformOrigin: "50% 50%" })
-            .to(selector, 0.3, { scale: 1, opacity: 0 });
-      }
-
-      function loop() {
-         spawnHeart();
-         setTimeout(loop, randomDelay());
-      }
-
-      loop();
-
-      window.addEventListener("resize", () => {
-         w = window.innerWidth;
-         h = window.innerHeight;
-      });
-   </script>
-
-</body>
-
+		<div class="hearts">
+			<div class="heart heart--is-yellow heart--top-left"></div>
+			<div class="heart heart--with-dots heart--is-green heart--left-center"></div>
+			<div class="heart heart--with-dots heart--is-red heart--top-center"></div>
+			<div class="heart heart--is-pink heart--bottom-center"></div>
+			<div class="heart heart--is-orange heart--bottom-right"></div>
+			<div class="heart heart--is-blue heart--with-lines heart--top-right"></div>
+		</div>
+    <script src='https://codepen.io/ykosinets/pen/bNbOppq.js'></script>
+  </body>
+  
 </html>
