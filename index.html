@@ -10,36 +10,29 @@
       rel="stylesheet" />
 
    <style>
-      *,
-      *::before,
-      *::after {
+      *, *::before, *::after {
          box-sizing: border-box;
          margin: 0;
          padding: 0;
       }
 
       :root {
-         /* --cream: #faf6f0; */
          --cream: #9b9897;
          --blush: #e8c9b8;
          --rose: #c9856a;
          --deep: #3a2a24;
          --gold: #c9a96e;
          --muted: #8a6f62;
-         --text-scale: 1;
-         /* ← controla TODO */
-
       }
 
       body {
-         background: var(--cream);
+         background: radial-gradient(circle at top, #ffffff10, transparent 60%), var(--cream);
          color: var(--deep);
          font-family: 'Parisienne', cursive;
          overflow-x: hidden;
          transition: background 1.2s ease, color 1.2s ease;
       }
 
-      /* 🌙 MODO NOCHE */
       body.night {
          --cream: #2a1d1a;
          --blush: #5a3a32;
@@ -47,6 +40,7 @@
          --deep: #f5e9e4;
          --gold: #e6c27a;
          --muted: #c3a79b;
+         background: radial-gradient(circle at top, #ffffff05, transparent 60%), var(--cream);
       }
 
       body::before {
@@ -58,27 +52,24 @@
          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       }
 
-      /* ✨ DORADO PREMIUM */
+      .gold-text.no-anim {
+         animation: none !important;
+         background-position: 0% center; /* fija el gradiente */
+         display: inline-block;
+      }
+
       .gold-text {
          background: linear-gradient(120deg, #c9a96e, #fff2c2, #c9a96e);
          background-size: 200% auto;
          -webkit-background-clip: text;
-         -webkit-text-fill-color: transparent;
+         background-clip: text;
+         color: transparent;
          animation: goldShine 6s linear infinite;
       }
 
-      body.night .gold-text {
-         background: linear-gradient(120deg, #e6c27a, #fff3c9, #e6c27a);
-      }
-
       @keyframes goldShine {
-         0% {
-            background-position: 0% center;
-         }
-
-         100% {
-            background-position: 200% center;
-         }
+         0% { background-position: 0% center; }
+         100% { background-position: 200% center; }
       }
 
       #petals {
@@ -97,64 +88,73 @@
          align-items: center;
          justify-content: center;
          text-align: center;
-         padding: clamp(2.5rem, 7vw, 5rem);
+         padding: clamp(1.5rem, 5vw, 5rem);
          gap: 2rem;
       }
 
-      .tagline {
-         color: #000;
+      .page > *:not(.hero-title) {
+         opacity: 0;
+         transform: translateY(10px);
+         animation: reveal .8s ease forwards;
+      }
+
+      .page > *:not(.hero-title):nth-child(1){ animation-delay: .2s }
+      .page > *:not(.hero-title):nth-child(2){ animation-delay: .4s }
+      .page > *:not(.hero-title):nth-child(3){ animation-delay: .6s }
+      .page > *:not(.hero-title):nth-child(4){ animation-delay: .8s }
+
+      @keyframes reveal {
+         to { opacity: 1; transform: translateY(0); }
+      }
+
+      .tagline, .section-label, .timer-label, .countdown-note {
+         font-family: 'Parisienne', cursive;
+         color: var(--deep);
+         font-size: clamp(1.2rem, 3.5vw, 1.8rem);
       }
 
       .hero-title {
-         font-size: clamp(3rem, 13vw, 8rem);
+         font-size: clamp(3.5rem, 14vw, 9rem);
+         letter-spacing: 0.05em;
+         text-shadow: 0 10px 30px rgba(0,0,0,0.15);
+         animation: fadeUp 1.2s ease;
+      }
+
+      @keyframes fadeUp {
+         from { opacity: 0; transform: translateY(20px); }
+         to { opacity: 1; transform: translateY(0); }
       }
 
       .timer-wrap {
          display: flex;
-         gap: 1rem;
+         flex-wrap: wrap;
+         justify-content: center;
+         gap: clamp(1rem, 4vw, 3rem);
+         padding: 1.5rem 2rem;
+         border-radius: 20px;
+         background: rgba(255,255,255,0.15);
+         backdrop-filter: blur(10px);
+      }
+
+      body.night .timer-wrap {
+         background: rgba(0,0,0,0.2);
       }
 
       .timer-num {
          font-size: clamp(2.5rem, 10vw, 5rem);
-         transition: all .6s ease;
+         transition: transform .3s ease, text-shadow .3s ease;
       }
 
-      .timer-num.visible {
-         text-shadow: 0 0 12px rgba(201, 133, 106, .4);
-         transform: scale(1.05);
+      .timer-num:hover {
+         transform: scale(1.1);
+         text-shadow: 0 0 20px rgba(201,133,106,.6);
       }
 
       .timer-label {
-         font-family: 'Jost', sans-serif;
          font-size: .6rem;
          letter-spacing: .25em;
       }
 
-      @media (max-width:600px) {
-         .timer-num {
-            font-size: 1.8rem;
-         }
-      }
-
-      .section-label {
-         color: #000;
-         font-size: calc(clamp(.9rem, 2.5vw, 1.3rem) * var(--text-scale));
-      }
-
-      .timer-wrap {
-         display: flex;
-         align-items: flex-start;
-         gap: clamp(3rem, 5vw, 3rem);
-         /* ← más separación */
-      }
-
-      .countdown-note {
-         font-size: calc(clamp(1rem, 3vw, 1.6rem) * var(--text-scale));
-      }
-
-      .tagline {
-         font-size: calc(clamp(1rem, 3vw, 1.4rem) * var(--text-scale));
-      }
    </style>
 </head>
 
@@ -167,7 +167,7 @@
       <p class="tagline">Se vienen cosas...</p>
 
       <h1 class="hero-title">
-         <em class="gold-text">En Mayo...</em>
+         <em class="gold-text no-anim">En Mayo...</em>
       </h1>
 
       <p class="section-label ">¡Prepárate!</p>
@@ -198,11 +198,9 @@
    </main>
 
    <script>
-      // 🌙 MODO DÍA/NOCHE
       const h = new Date().getHours();
       if (h >= 19 || h < 6) document.body.classList.add('night');
 
-      // 🌸 PÉTALOS PREMIUM
       const canvas = document.getElementById('petals');
       const ctx = canvas.getContext('2d');
       let W, H, petals = [];
@@ -219,8 +217,8 @@
          return {
             x: Math.random() * W,
             y: -20,
-            r: d * 6 + 2,
-            speed: d * .8 + .2,
+            r: d * 10 + 3,
+            speed: d * .4 + .1,
             drift: (Math.random() - .5) * .3,
             swing: Math.random() * .02 + .01,
             angle: Math.random() * Math.PI * 2,
@@ -232,7 +230,7 @@
          };
       }
 
-      const COUNT = innerWidth < 600 ? 14 : 28;
+      const COUNT = innerWidth < 600 ? 10 : 18;
 
       for (let i = 0; i < COUNT; i++) {
          let p = mkPetal();
@@ -242,6 +240,7 @@
 
       function drawP(p) {
          ctx.save();
+         ctx.filter = "blur(0.3px)";
          ctx.translate(p.x, p.y);
          ctx.rotate(p.rot);
          ctx.globalAlpha = p.op;
@@ -272,7 +271,6 @@
          requestAnimationFrame(loop);
       })();
 
-      // ⏳ CONTADOR
       const TARGET = new Date('2026-05-13T00:00:00');
 
       (function tick() {
@@ -290,23 +288,7 @@
          }
          requestAnimationFrame(tick);
       })();
-
-      // ✨ GLOW
-      const obs = new IntersectionObserver(e => {
-         if (e[0].isIntersecting) {
-            document.querySelectorAll('.timer-num').forEach(el => el.classList.add('visible'));
-         }
-      }, { threshold: .6 });
-
-      obs.observe(document.querySelector('.timer-wrap'));
-
-      // 📳 INTERACCIÓN MOBILE
-      document.addEventListener('touchstart', e => {
-         if (navigator.vibrate) navigator.vibrate(15);
-      }, { passive: true });
-
    </script>
 
 </body>
-
 </html>
