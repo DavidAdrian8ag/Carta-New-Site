@@ -8,6 +8,7 @@
    <link rel="icon" href="favicon.ico">
    <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Jost:wght@200;300;400&display=swap"
       rel="stylesheet" />
+
    <style>
       *,
       *::before,
@@ -18,38 +19,34 @@
       }
 
       :root {
-         --cream: #faf6f0;
+         /* --cream: #faf6f0; */
+         --cream: #9b9897;
          --blush: #e8c9b8;
          --rose: #c9856a;
          --deep: #3a2a24;
          --gold: #c9a96e;
          --muted: #8a6f62;
-      }
+         --text-scale: 1;
+         /* ← controla TODO */
 
-      html,
-      body {
-         width: 100%;
-         min-height: 100%;
       }
 
       body {
          background: var(--cream);
          color: var(--deep);
          font-family: 'Parisienne', cursive;
-         font-weight: 400;
          overflow-x: hidden;
-         cursor: none;
+         transition: background 1.2s ease, color 1.2s ease;
       }
 
-      @media (hover: none) {
-         body {
-            cursor: auto;
-         }
-
-         #cursor,
-         #cursor-ring {
-            display: none;
-         }
+      /* 🌙 MODO NOCHE */
+      body.night {
+         --cream: #2a1d1a;
+         --blush: #5a3a32;
+         --rose: #d08b73;
+         --deep: #f5e9e4;
+         --gold: #e6c27a;
+         --muted: #c3a79b;
       }
 
       body::before {
@@ -57,33 +54,31 @@
          position: fixed;
          inset: 0;
          z-index: 0;
-         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
-         pointer-events: none;
+         opacity: .04;
+         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       }
 
-      #cursor {
-         position: fixed;
-         width: 10px;
-         height: 10px;
-         border-radius: 50%;
-         background: var(--rose);
-         pointer-events: none;
-         z-index: 9999;
-         transform: translate(-50%, -50%);
-         transition: transform .12s ease;
+      /* ✨ DORADO PREMIUM */
+      .gold-text {
+         background: linear-gradient(120deg, #c9a96e, #fff2c2, #c9a96e);
+         background-size: 200% auto;
+         -webkit-background-clip: text;
+         -webkit-text-fill-color: transparent;
+         animation: goldShine 6s linear infinite;
       }
 
-      #cursor-ring {
-         position: fixed;
-         width: 28px;
-         height: 28px;
-         border-radius: 50%;
-         border: 1px solid var(--rose);
-         pointer-events: none;
-         z-index: 9998;
-         transform: translate(-50%, -50%);
-         transition: transform .3s ease;
-         opacity: .55;
+      body.night .gold-text {
+         background: linear-gradient(120deg, #e6c27a, #fff3c9, #e6c27a);
+      }
+
+      @keyframes goldShine {
+         0% {
+            background-position: 0% center;
+         }
+
+         100% {
+            background-position: 200% center;
+         }
       }
 
       #petals {
@@ -96,194 +91,75 @@
       .page {
          position: relative;
          z-index: 2;
-         min-height: 100svh;
+         min-height: 100dvh;
          display: flex;
          flex-direction: column;
          align-items: center;
          justify-content: center;
          text-align: center;
-         padding: clamp(2.5rem, 7vw, 5rem) clamp(1.2rem, 6vw, 4rem);
-         gap: clamp(1.2rem, 3vw, 2.2rem);
+         padding: clamp(2.5rem, 7vw, 5rem);
+         gap: 2rem;
       }
 
-      /* tagline */
       .tagline {
-         font-family: 'Parisienne', cursive;
-         letter-spacing: .08em;
-         font-size: clamp(1rem, 3vw, 1.4rem);
-         color: var(--rose);
-         opacity: 0;
-         animation: fadeUp .8s .2s forwards;
+         color: #000;
       }
 
-      /* título principal */
       .hero-title {
-         font-family: 'Parisienne', cursive;
          font-size: clamp(3rem, 13vw, 8rem);
-         line-height: 1.1;
-         color: var(--deep);
-         opacity: 0;
-         animation: fadeUp .9s .45s forwards;
       }
 
-      .hero-title em {
-         font-style: italic;
-         color: var(--rose);
-         display: block;
-      }
-
-      .deco-line {
-         width: clamp(40px, 10vw, 70px);
-         height: 1px;
-         background: linear-gradient(90deg, transparent, var(--gold), transparent);
-         opacity: 0;
-         animation: fadeUp .8s .7s forwards;
-      }
-
-      /* lazo / ribbon */
-      .ribbon {
-         display: flex;
-         align-items: center;
-         gap: clamp(.5rem, 2vw, 1.2rem);
-         opacity: 0;
-         animation: fadeUp .8s 1.05s forwards;
-      }
-
-      .ribbon span {
-         font-size: clamp(.95rem, 3vw, 1.4rem);
-      }
-
-      .ribbon-line {
-         width: clamp(28px, 7vw, 55px);
-         height: 1px;
-         background: var(--blush);
-      }
-
-      /* label "¡Prepárate!" */
-      .section-label {
-         font-family: 'Parisienne', cursive;
-         letter-spacing: .06em;
-         font-size: clamp(.9rem, 2.5vw, 1.3rem);
-         color: var(--gold);
-         opacity: 0;
-         animation: fadeUp .8s 1.2s forwards;
-      }
-
-      /* timer */
       .timer-wrap {
          display: flex;
-         align-items: flex-start;
-         gap: clamp(.5rem, 3.5vw, 2.8rem);
-         opacity: 0;
-         animation: fadeUp .9s 1.4s forwards;
-      }
-
-      .timer-block {
-         display: flex;
-         flex-direction: column;
-         align-items: center;
-         gap: clamp(.25rem, .8vw, .5rem);
-         min-width: clamp(50px, 13vw, 95px);
+         gap: 1rem;
       }
 
       .timer-num {
-         font-family: 'Parisienne', cursive;
-         font-size: clamp(2.5rem, 10vw, 5.5rem);
-         color: var(--deep);
-         line-height: 1;
-         position: relative;
+         font-size: clamp(2.5rem, 10vw, 5rem);
+         transition: all .6s ease;
       }
 
-      .timer-num::after {
-         content: '';
-         position: absolute;
-         bottom: -2px;
-         left: 0;
-         right: 0;
-         height: 1.5px;
-         background: linear-gradient(90deg, transparent, var(--rose), transparent);
+      .timer-num.visible {
+         text-shadow: 0 0 12px rgba(201, 133, 106, .4);
+         transform: scale(1.05);
       }
 
       .timer-label {
          font-family: 'Jost', sans-serif;
-         font-weight: 200;
-         font-size: clamp(.5rem, 1.4vw, .68rem);
-         letter-spacing: .28em;
-         text-transform: uppercase;
-         color: var(--muted);
+         font-size: .6rem;
+         letter-spacing: .25em;
       }
 
-      .timer-sep {
-         font-family: 'Parisienne', cursive;
-         font-size: clamp(1.8rem, 8vw, 4rem);
-         color: var(--blush);
-         line-height: 1;
-         padding-top: .05em;
-         align-self: flex-start;
+      @media (max-width:600px) {
+         .timer-num {
+            font-size: 1.8rem;
+         }
       }
 
-      /* frase final */
+      .section-label {
+         color: #000;
+         font-size: calc(clamp(.9rem, 2.5vw, 1.3rem) * var(--text-scale));
+      }
+
+      .timer-wrap {
+         display: flex;
+         align-items: flex-start;
+         gap: clamp(3rem, 5vw, 3rem);
+         /* ← más separación */
+      }
+
       .countdown-note {
-         font-family: 'Parisienne', cursive;
-         font-size: clamp(1rem, 3vw, 1.6rem);
-         color: var(--muted);
-         max-width: 38ch;
-         line-height: 1.8;
-         opacity: 0;
-         animation: fadeUp .9s 1.65s forwards;
+         font-size: calc(clamp(1rem, 3vw, 1.6rem) * var(--text-scale));
       }
 
-      /* confetti */
-      .confetti-piece {
-         position: fixed;
-         pointer-events: none;
-         z-index: 200;
-         border-radius: 50%;
-         animation: confettiFall linear forwards;
-      }
-
-      @keyframes confettiFall {
-         0% {
-            opacity: 1;
-            transform: translateY(0) rotate(0deg);
-         }
-
-         100% {
-            opacity: 0;
-            transform: translateY(100vh) rotate(720deg);
-         }
-      }
-
-      @keyframes fadeUp {
-         from {
-            opacity: 0;
-            transform: translateY(20px);
-         }
-
-         to {
-            opacity: 1;
-            transform: translateY(0);
-         }
-      }
-
-      @media (max-width: 340px) {
-         .timer-sep {
-            display: none;
-         }
-
-         .timer-wrap {
-            gap: .35rem;
-            justify-content: center;
-            flex-wrap: wrap;
-         }
+      .tagline {
+         font-size: calc(clamp(1rem, 3vw, 1.4rem) * var(--text-scale));
       }
    </style>
 </head>
 
 <body>
 
-   <div id="cursor"></div>
-   <div id="cursor-ring"></div>
    <canvas id="petals"></canvas>
 
    <main class="page">
@@ -291,37 +167,26 @@
       <p class="tagline">Se vienen cosas...</p>
 
       <h1 class="hero-title">
-         <em>En Mayo...</em>
+         <em class="gold-text">En Mayo...</em>
       </h1>
 
-      <div class="deco-line"></div>
-
-      <div class="ribbon">
-         <div class="ribbon-line"></div>
-         <span>🩷 🎀 💙</span>
-         <div class="ribbon-line"></div>
-      </div>
-
-      <p class="section-label">¡Prepárate!</p>
+      <p class="section-label ">¡Prepárate!</p>
 
       <div class="timer-wrap">
-         <div class="timer-block">
-            <div class="timer-num" id="days">00</div>
+         <div>
+            <div class="timer-num gold-text" id="days">00</div>
             <div class="timer-label">Días</div>
          </div>
-         <div class="timer-sep">:</div>
-         <div class="timer-block">
-            <div class="timer-num" id="hours">00</div>
+         <div>
+            <div class="timer-num gold-text" id="hours">00</div>
             <div class="timer-label">Horas</div>
          </div>
-         <div class="timer-sep">:</div>
-         <div class="timer-block">
-            <div class="timer-num" id="minutes">00</div>
+         <div>
+            <div class="timer-num gold-text" id="minutes">00</div>
             <div class="timer-label">Min</div>
          </div>
-         <div class="timer-sep">:</div>
-         <div class="timer-block">
-            <div class="timer-num" id="seconds">00</div>
+         <div>
+            <div class="timer-num gold-text" id="seconds">00</div>
             <div class="timer-label">Seg</div>
          </div>
       </div>
@@ -333,125 +198,115 @@
    </main>
 
    <script>
-      /* ── Cursor ── */
-      const cur = document.getElementById('cursor');
-      const ring = document.getElementById('cursor-ring');
-      document.addEventListener('mousemove', e => {
-         cur.style.left = ring.style.left = e.clientX + 'px';
-         cur.style.top = ring.style.top = e.clientY + 'px';
-      });
+      // 🌙 MODO DÍA/NOCHE
+      const h = new Date().getHours();
+      if (h >= 19 || h < 6) document.body.classList.add('night');
 
-      /* ── Pétalos ── */
+      // 🌸 PÉTALOS PREMIUM
       const canvas = document.getElementById('petals');
       const ctx = canvas.getContext('2d');
       let W, H, petals = [];
 
       function resize() {
-         W = canvas.width = window.innerWidth;
-         H = canvas.height = window.innerHeight;
+         W = canvas.width = innerWidth;
+         H = canvas.height = innerHeight;
       }
       resize();
-      window.addEventListener('resize', resize);
-
-      const COLORS = ['#e8c9b8', '#c9856a', '#c9a96e', '#f0d8cc', '#d4a08a', '#eeddd3'];
+      addEventListener('resize', resize);
 
       function mkPetal() {
+         const d = Math.random();
          return {
-            x: Math.random() * W, y: -20,
-            r: Math.random() * 5 + 2.5,
-            color: COLORS[Math.floor(Math.random() * COLORS.length)],
-            speed: Math.random() * .55 + .25,
-            drift: (Math.random() - .5) * .45,
+            x: Math.random() * W,
+            y: -20,
+            r: d * 6 + 2,
+            speed: d * .8 + .2,
+            drift: (Math.random() - .5) * .3,
+            swing: Math.random() * .02 + .01,
+            angle: Math.random() * Math.PI * 2,
             rot: Math.random() * Math.PI * 2,
-            rotS: (Math.random() - .5) * .022,
-            op: Math.random() * .45 + .18,
-            diamond: Math.random() > .5
+            rotS: (Math.random() - .5) * .02,
+            op: d * .5 + .2,
+            type: Math.random() > .5 ? 't' : 'e',
+            color: ['#e8c9b8', '#c9856a', '#c9a96e', '#f0d8cc'][Math.floor(Math.random() * 4)]
          };
       }
 
-      for (let i = 0; i < 28; i++) {
-         const p = mkPetal(); p.y = Math.random() * H; petals.push(p);
+      const COUNT = innerWidth < 600 ? 14 : 28;
+
+      for (let i = 0; i < COUNT; i++) {
+         let p = mkPetal();
+         p.y = Math.random() * H;
+         petals.push(p);
       }
 
       function drawP(p) {
          ctx.save();
-         ctx.translate(p.x, p.y); ctx.rotate(p.rot);
-         ctx.globalAlpha = p.op; ctx.fillStyle = p.color;
+         ctx.translate(p.x, p.y);
+         ctx.rotate(p.rot);
+         ctx.globalAlpha = p.op;
+         ctx.fillStyle = p.color;
+
          ctx.beginPath();
-         if (p.diamond) {
-            ctx.moveTo(0, -p.r * 1.5); ctx.lineTo(p.r, 0);
-            ctx.lineTo(0, p.r * 1.5); ctx.lineTo(-p.r, 0);
-            ctx.closePath();
+         if (p.type === 't') {
+            ctx.moveTo(0, -p.r * 1.6);
+            ctx.quadraticCurveTo(p.r, 0, 0, p.r * 1.6);
+            ctx.quadraticCurveTo(-p.r, 0, 0, -p.r * 1.6);
          } else {
-            ctx.ellipse(0, 0, p.r, p.r * 1.65, 0, 0, Math.PI * 2);
+            ctx.ellipse(0, 0, p.r, p.r * 1.4, 0, 0, Math.PI * 2);
          }
-         ctx.fill(); ctx.restore();
+         ctx.fill();
+         ctx.restore();
       }
 
       (function loop() {
          ctx.clearRect(0, 0, W, H);
          petals.forEach(p => {
-            p.y += p.speed; p.x += p.drift; p.rot += p.rotS;
+            p.y += p.speed;
+            p.angle += p.swing;
+            p.x += Math.sin(p.angle) * .6 + p.drift;
+            p.rot += p.rotS;
             if (p.y > H + 20) Object.assign(p, mkPetal());
             drawP(p);
          });
          requestAnimationFrame(loop);
       })();
 
-      /* ── Countdown ── */
+      // ⏳ CONTADOR
       const TARGET = new Date('2026-05-13T00:00:00');
-      let lastSec = -1;
 
       (function tick() {
-         const now = new Date();
-         let diff = TARGET - now;
-
+         let diff = TARGET - new Date();
          if (diff > 0) {
-            const d = Math.floor(diff / 86400000); diff -= d * 86400000;
-            const h = Math.floor(diff / 3600000); diff -= h * 3600000;
-            const m = Math.floor(diff / 60000); diff -= m * 60000;
-            const s = Math.floor(diff / 1000);
-            if (s !== lastSec) {
-               lastSec = s;
-               document.getElementById('days').textContent = String(d).padStart(2, '0');
-               document.getElementById('hours').textContent = String(h).padStart(2, '0');
-               document.getElementById('minutes').textContent = String(m).padStart(2, '0');
-               document.getElementById('seconds').textContent = String(s).padStart(2, '0');
-            }
-         } else {
-            ['days', 'hours', 'minutes', 'seconds'].forEach(id =>
-               document.getElementById(id).textContent = '00');
-            burst(window.innerWidth / 2, 0, 40);
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor(diff / 3600000) % 24;
+            const m = Math.floor(diff / 60000) % 60;
+            const s = Math.floor(diff / 1000) % 60;
+
+            days.textContent = String(d).padStart(2, '0');
+            hours.textContent = String(h).padStart(2, '0');
+            minutes.textContent = String(m).padStart(2, '0');
+            seconds.textContent = String(s).padStart(2, '0');
          }
          requestAnimationFrame(tick);
       })();
 
-      /* ── Confetti ── */
-      const CC = ['#c9856a', '#c9a96e', '#e8c9b8', '#3a2a24', '#f5d5c5', '#fff'];
-
-      function burst(x, y, n = 16) {
-         for (let i = 0; i < n; i++) {
-            const el = document.createElement('div');
-            el.className = 'confetti-piece';
-            const sz = Math.random() * 7 + 5;
-            el.style.cssText = `
-          left:${x}px; top:${y}px;
-          width:${sz}px; height:${sz}px;
-          background:${CC[i % CC.length]};
-          border-radius:${Math.random() > .5 ? '50%' : '2px'};
-          animation-duration:${Math.random() * 900 + 700}ms;
-          transform:translate(${(Math.random() - .5) * 180}px,0);
-        `;
-            document.body.appendChild(el);
-            setTimeout(() => el.remove(), 1800);
+      // ✨ GLOW
+      const obs = new IntersectionObserver(e => {
+         if (e[0].isIntersecting) {
+            document.querySelectorAll('.timer-num').forEach(el => el.classList.add('visible'));
          }
-      }
+      }, { threshold: .6 });
 
-      document.addEventListener('click', e => burst(e.clientX, e.clientY));
+      obs.observe(document.querySelector('.timer-wrap'));
+
+      // 📳 INTERACCIÓN MOBILE
       document.addEventListener('touchstart', e => {
-         burst(e.touches[0].clientX, e.touches[0].clientY);
+         if (navigator.vibrate) navigator.vibrate(15);
       }, { passive: true });
+
    </script>
+
 </body>
 
 </html>
